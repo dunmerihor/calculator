@@ -14,6 +14,9 @@ function multiply(a, b) {
 
 
 function divide(a, b) {
+    if (b === 0) {
+        return 'Can\'t divide by zero';
+    }
     return a / b;
 }
 
@@ -29,7 +32,7 @@ function operate(a, b, operator) {
         return multiply(a, b);
     }
     else if (operator === '/') {
-        return subtract(a, b);
+        return divide(a, b);
     }
 }
 
@@ -39,10 +42,18 @@ function getEquation() {
     return equation.textContent;
 }
 
+
 function setEquation() {
     let equation = document.querySelector('#equation');
     equation.textContent = equationString;
 }
+
+
+function getResult() {
+    let resultString = document.querySelector('#result');
+    return resultString.textContent;
+}
+
 
 function setResult(result) {
     let resultString = document.querySelector('#result');
@@ -51,85 +62,22 @@ function setResult(result) {
 
 
 function pressButton(event) {
-    if (event.target.id === 'one') {
-        equationString += '1';
-        setEquation();
-    }
-    else if (event.target.id === 'two') {
-        equationString += '2';
-        setEquation();
-    }
-    else if (event.target.id === 'three') {
-        equationString += '3';
-        setEquation();
-    }
-    else if (event.target.id === 'four') {
-        equationString += '4';
-        setEquation();
-    }
-    else if (event.target.id === 'five') {
-        equationString += '5';
-        setEquation();
-    }
-    else if (event.target.id === 'six') {
-        equationString += '6';
-        setEquation();
-    }
-    else if (event.target.id === 'seven') {
-        equationString += '7';
-        setEquation();
-    }
-    else if (event.target.id === 'eight') {
-        equationString += '8';
-        setEquation();
-    }
-    else if (event.target.id === 'nine') {
-        equationString += '9';
-        setEquation();
-    }
-    else if (event.target.id === 'zero') {
-        equationString += '0';
+    if (event.target.className === 'digit') {
+        equationString += event.target.id;
         setEquation();
     }
 
-    else if (event.target.id == 'add') {
+    else if (event.target.className == 'operator') {
         if (operatorIsPressed === false) {
             operatorIsPressed = true;
-            equationString += '+';
+            equationString += event.target.textContent;
             setEquation();
         }
         else {
-
-        }
-    }
-    else if (event.target.id == 'subtract') {
-        if (operatorIsPressed === false) {
+            calculate();
+            equationString = getResult() + event.target.textContent;
             operatorIsPressed = true;
-            equationString += '-';
             setEquation();
-        }
-        else {
-
-        }
-    }
-    else if (event.target.id == 'multiply') {
-        if (operatorIsPressed === false) {
-            operatorIsPressed = true;
-            equationString += '*';
-            setEquation();
-        }
-        else {
-
-        }
-    }
-    else if (event.target.id == 'divide') {
-        if (operatorIsPressed === false) {
-            operatorIsPressed = true;
-            equationString += '/';
-            setEquation();
-        }
-        else {
-
         }
     }
 }
@@ -141,35 +89,14 @@ function calculate() {
     
     if (numbers !== null) {
         if (numbers[1] !== undefined) {
-            if (operator[0] === '+') {
-                let result = Number(numbers[0]) + Number(numbers[1]);
-                setResult(result);
-                setDefaultState();
-            }
+            let result = operate(Number(numbers[0]), Number(numbers[1]), operator[0])
+            setResult(result);
+            setDefaultState();
+        }
 
-            if (operator[0] === '-') {
-                let result = Number(numbers[0]) - Number(numbers[1]);
-                setResult(result);
-                setDefaultState();
-            }
-
-            if (operator[0] === '*') {
-                let result = Number(numbers[0]) * Number(numbers[1]);
-                setResult(result);
-                setDefaultState();
-            }
-
-            if (operator[0] === '/') {
-                if (Number(numbers[1]) !== 0) {
-                    let result = Number(numbers[0]) / Number(numbers[1]);
-                    setResult(result);
-                    setDefaultState();
-                }
-                else {
-                    setResult('Can\'t divide by zero');
-                    setDefaultState();
-                }
-            }
+        else {
+            setResult(numbers[0]);
+            setDefaultState();
         }
     }
 }

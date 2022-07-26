@@ -47,6 +47,17 @@ body {
 
 button {
     font-size: 22px;
+    color: white;
+    transition-duration: 0.05s;
+    background-color: rgb(21, 96, 170);
+    border: 1px solid rgb(51, 51, 51);
+    border-radius: 8px;
+    width: 55px;
+    height: 35px;
+}
+
+button:hover {
+    background-color: dodgerblue;
 }
 
 .buttons {
@@ -64,20 +75,6 @@ button {
 .row {
     display: flex;
     gap: 20px;
-}
-
-.digit {
-    color: white;
-    transition-duration: 0.05s;
-    background-color: rgb(21, 96, 170);
-    border: 1px solid rgb(51, 51, 51);
-    border-radius: 8px;
-    width: 55px;
-    height: 35px;
-}
-
-.digit:hover {
-    background-color: dodgerblue;
 }
 
 .operators {
