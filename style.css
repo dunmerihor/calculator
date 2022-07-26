@@ -32,12 +32,14 @@ body {
 
 #equation {
     align-self: flex-start;
+    justify-self: flex-start;
     margin: 9px 7px;
     font-size: 18px;
 }
 
 #result {
     align-self: flex-end;
+    justify-self: flex-end;
     margin-right: 7px;
     margin-bottom: 0;
     font-size: 32px;
