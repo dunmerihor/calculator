@@ -63,14 +63,28 @@ function setResult(result) {
 
 function pressButton(event) {
     if (event.target.className === 'digit') {
-        equationString += event.target.id;
-        setEquation();
+        if (currentNumber === '0') {
+            currentNumber = event.target.id;
+            setResult(currentNumber);
+        }
+        else if (newLine === true) {
+            currentNumber = event.target.id;
+            newLine = false;
+            setResult(currentNumber);
+        }
+        else {
+            currentNumber += event.target.id;
+            setResult(currentNumber);
+        }
     }
 
     else if (event.target.className == 'operator') {
         if (operatorIsPressed === false) {
             operatorIsPressed = true;
-            equationString += event.target.textContent;
+            pointIsPressed = false;
+            equationString = getResult() + event.target.textContent;
+            currentNumber = '0';
+            setResult(currentNumber);
             setEquation();
         }
         else {
@@ -84,22 +98,39 @@ function pressButton(event) {
 
 
 function calculate() {
-    const numbers = equationString.match(/\d+/g);
+    if (currentNumber !== '0') {
+        equationString += currentNumber;
+    }
+
+    const numbers = equationString.match(/[\d.]+/g);
     const operator = equationString.match(/[-+*/]/);
     
     if (numbers !== null) {
         if (numbers[1] !== undefined) {
-            let result = operate(Number(numbers[0]), Number(numbers[1]), operator[0])
+            let result = operate(Number(numbers[0]), Number(numbers[1]), operator[0]);
+            currentNumber = result;
+            newLine = true;
             setResult(result);
             setDefaultState();
         }
 
         else {
             setResult(numbers[0]);
+            currentNumber = '0';
+            newLine = true;
             setDefaultState();
         }
     }
 }
+
+
+function deleteAll() {
+    setDefaultState();
+    currentNumber = '0';
+    newLine = false;
+    setResult(currentNumber);
+}
+
 
 function setDefaultState() {
     equationString = '';
@@ -108,11 +139,29 @@ function setDefaultState() {
 }
 
 
+function switchPoint() {
+    if (toString(currentNumber).search(/[.]/) === -1) {
+        currentNumber += '.';
+        setResult(currentNumber);
+        pointIsPressed = true;
+    }
+}
+
+
 let equationString = '';
+let currentNumber = '0';
+let newLine = false;
 let operatorIsPressed = false;
+let pointIsPressed = false;
 
 const buttons = Array.from(document.querySelectorAll('button'));
 buttons.forEach(button => button.addEventListener('click', pressButton));
+
 const equalButton = document.querySelector('#equals');
 equalButton.addEventListener('click', calculate);
 
+const pointButton = document.querySelector('#point');
+pointButton.addEventListener('click', switchPoint);
+
+const deleteButton = document.querySelector('#delete');
+deleteButton.addEventListener('click', deleteAll);
