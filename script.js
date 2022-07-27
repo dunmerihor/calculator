@@ -34,18 +34,9 @@ function operate(a, b, operator) {
     else if (operator === '/') {
         return divide(a, b);
     }
-}
-
-
-function getEquation() {
-    let equation = document.querySelector('#equation');
-    return equation.textContent;
-}
-
-
-function setEquation() {
-    let equation = document.querySelector('#equation');
-    equation.textContent = equationString;
+    else {
+        return b;
+    }
 }
 
 
@@ -63,93 +54,73 @@ function setResult(result) {
 
 function pressButton(event) {
     if (event.target.className === 'digit') {
-        if (currentNumber === '0') {
-            currentNumber = event.target.id;
+        if (newLine === false && pointIsPressed === false) {
+            currentNumber = Number(`${currentNumber}${event.target.id}`);
             setResult(currentNumber);
         }
-        else if (newLine === true) {
-            currentNumber = event.target.id;
-            newLine = false;
+        else if (newLine === false && pointIsPressed === true) {
+            currentNumber = Number(`${currentNumber}.${event.target.id}`);
+            pointIsPressed = false;
             setResult(currentNumber);
         }
         else {
-            currentNumber += event.target.id;
+            lastNumber = currentNumber;
+            currentNumber = Number(`${event.target.id}`);
+            newLine = false;
             setResult(currentNumber);
         }
     }
 
     else if (event.target.className == 'operator') {
         if (operatorIsPressed === false) {
+            lastNumber = currentNumber;
+            operator = event.target.textContent;
+            currentNumber = 0;
+            newLine = false;
             operatorIsPressed = true;
-            pointIsPressed = false;
-            equationString = getResult() + event.target.textContent;
-            currentNumber = '0';
             setResult(currentNumber);
-            setEquation();
         }
         else {
             calculate();
-            equationString = getResult() + event.target.textContent;
+            lastNumber = currentNumber;
+            currentNumber = 0;
+            operator = event.target.textContent;
+            newLine = false;
             operatorIsPressed = true;
-            setEquation();
         }
     }
 }
 
 
-function calculate() {
-    if (currentNumber !== '0') {
-        equationString += currentNumber;
-    }
-
-    const numbers = equationString.match(/[\d.]+/g);
-    const operator = equationString.match(/[-+*/]/);
-    
-    if (numbers !== null) {
-        if (numbers[1] !== undefined) {
-            let result = operate(Number(numbers[0]), Number(numbers[1]), operator[0]);
-            currentNumber = result;
-            newLine = true;
-            setResult(result);
-            setDefaultState();
-        }
-
-        else {
-            setResult(numbers[0]);
-            currentNumber = '0';
-            newLine = true;
-            setDefaultState();
-        }
-    }
+function calculate() {    
+    let result = operate(lastNumber, currentNumber, operator);
+    currentNumber = result;
+    setResult(result);
+    operator = null;
+    newLine = true;
+    operatorIsPressed = false;
 }
 
 
 function deleteAll() {
-    setDefaultState();
-    currentNumber = '0';
+    operatorIsPressed = false;
+    lastNumber = 0;
+    currentNumber = 0;
     newLine = false;
     setResult(currentNumber);
 }
 
 
-function setDefaultState() {
-    equationString = '';
-    setEquation();
-    operatorIsPressed = false;
-}
-
-
 function switchPoint() {
-    if (toString(currentNumber).search(/[.]/) === -1) {
-        currentNumber += '.';
-        setResult(currentNumber);
+    if (currentNumber % 1 === 0) {
         pointIsPressed = true;
     }
 }
 
 
-let equationString = '';
-let currentNumber = '0';
+let operator = null;
+let lastNumber = 0;
+let currentNumber = 0;
 let newLine = false;
 let operatorIsPressed = false;
 let pointIsPressed = false;
