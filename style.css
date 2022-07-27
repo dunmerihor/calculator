@@ -11,7 +11,7 @@ body {
 
 .calculator {
     background-color: dodgerblue;
-    border: 3px solid grey;
+    border: 2px solid black;
     border-radius: 16px;
     padding: 2em 1em;
     display: flex;
@@ -22,24 +22,18 @@ body {
 .display {
     background-color: yellowgreen;
     color: black;
-    height: 70px;
-    width: 280px;
+    height: 85px;
+    width: 420px;
     padding-bottom: 9px;
     border-radius: 16px;
+    border: 1px solid rgb(51, 51, 51);
     display: flex;
+    justify-content: center;
     flex-direction: column;
-}
-
-#equation {
-    align-self: flex-start;
-    justify-self: flex-start;
-    margin: 9px 7px;
-    font-size: 18px;
 }
 
 #result {
     align-self: flex-end;
-    justify-self: flex-end;
     margin-right: 7px;
     margin-bottom: 0;
     font-size: 32px;
@@ -52,8 +46,8 @@ button {
     background-color: rgb(21, 96, 170);
     border: 1px solid rgb(51, 51, 51);
     border-radius: 8px;
-    width: 55px;
-    height: 35px;
+    width: 90px;
+    height: 54px;
 }
 
 button:hover {
@@ -88,13 +82,14 @@ button:hover {
     transition-duration: 0.05s;
     background-color: rgb(21, 96, 170);
     border: 1px solid rgb(51, 51, 51);
-    border-radius: 8px;
-    width: 55px;
-    height: 35px;
 }
 
 .operator:hover {
     background-color: dodgerblue;
+}
+
+#bottom-row {
+    align-self: flex-end;
 }
 
 #equals {
@@ -103,9 +98,6 @@ button:hover {
     align-self: flex-end;
     background-color: rgb(223, 147, 76);
     border: 1px solid rgb(51, 51, 51);
-    border-radius: 8px;
-    width: 55px;
-    height: 35px;
 }
 
 #equals:hover {
@@ -118,5 +110,14 @@ button:hover {
 }
 
 #delete:hover {
+    background-color: rgb(250, 125, 103);
+}
+
+#backspace {
+    background-color: tomato;
+    transition-duration: 0.05s;
+}
+
+#backspace:hover {
     background-color: rgb(250, 125, 103);
 }
