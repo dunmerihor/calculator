@@ -123,7 +123,6 @@ function deleteAll() {
 
 
 function deleteLastChar() {
-    console.log('here')
     if (currentNumber.length > 1) {
         currentNumber = currentNumber.slice(0, -1);
         setResult(currentNumber);
@@ -139,6 +138,11 @@ function switchPoint() {
     if (currentNumber.indexOf('.') === -1) {
         pointIsPressed = true;
     }
+}
+
+
+function pressKey(event) {
+    const key = document.querySelector(`button[data-key="${event.keyCode}"]`).click()
 }
 
 
@@ -163,3 +167,5 @@ deleteButton.addEventListener('click', deleteAll);
 
 const backspaceButton = document.querySelector('#backspace');
 backspaceButton.addEventListener('click', deleteLastChar);
+
+window.addEventListener('keydown', pressKey);
